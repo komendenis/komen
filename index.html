@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Komen — Data Science Portfolio</title>
+  <meta name="description" content="Machine learning and data analysis projects by Komen: regression, classification, NLP and exploratory data analysis.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="nav">
+    <div class="container nav__inner">
+      <a class="brand" href="#top">komen<span>.dev</span></a>
+      <nav aria-label="Primary">
+        <ul class="nav__links" id="nav-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="nav__actions">
+        <button class="icon-btn" id="theme-toggle" aria-label="Toggle dark mode">
+          <svg class="i-sun" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <svg class="i-moon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="icon-btn nav__menu" id="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Hero -->
+    <section class="hero" id="top">
+      <div class="container hero__inner">
+        <div class="hero__text reveal">
+          <p class="eyebrow">Data Science · Machine Learning</p>
+          <h1>Turning raw data into <span class="accent">clear answers</span>.</h1>
+          <p class="lead">I explore datasets, build predictive models, and explain what the numbers mean, from ice cream sales to medical diagnostics.</p>
+          <div class="hero__cta">
+            <a class="btn btn--primary" href="#projects">View projects</a>
+            <a class="btn btn--ghost" href="https://github.com/komendenis" target="_blank" rel="noopener">GitHub ↗</a>
+          </div>
+        </div>
+        <div class="hero__card reveal" aria-hidden="true">
+          <div class="code">
+            <div class="code__bar"><span></span><span></span><span></span><em>model.py</em></div>
+<pre><code><span class="k">from</span> sklearn.linear_model <span class="k">import</span> LinearRegression
+
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+score = model.score(X_test, y_test)
+<span class="f">print</span>(<span class="s">f"R² = </span>{score:.2f}<span class="s">"</span>)
+<span class="c"># → insight, not just output</span></code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section class="section" id="about">
+      <div class="container about">
+        <div class="reveal">
+          <h2 class="section__title">About</h2>
+          <p>I'm a data enthusiast who works through the full workflow: cleaning and exploring data, visualising relationships, then training and evaluating models with Python, pandas and scikit-learn.</p>
+          <p>My projects cover <strong>regression</strong>, <strong>classification</strong>, <strong>text classification (NLP)</strong> and <strong>synthetic data generation</strong>. Each one is a Jupyter notebook you can open on GitHub.</p>
+        </div>
+        <ul class="stats reveal">
+          <li><strong data-count="5">0</strong><span>Projects</span></li>
+          <li><strong data-count="4">0</strong><span>ML algorithms</span></li>
+          <li><strong data-count="4">0</strong><span>Repositories</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section class="section section--alt" id="projects">
+      <div class="container">
+        <div class="section__head reveal">
+          <h2 class="section__title">Projects</h2>
+          <div class="filters" role="group" aria-label="Filter projects">
+            <button class="chip is-active" data-filter="all">All</button>
+            <button class="chip" data-filter="regression">Regression</button>
+            <button class="chip" data-filter="classification">Classification</button>
+            <button class="chip" data-filter="nlp">NLP</button>
+            <button class="chip" data-filter="data">Data generation</button>
+          </div>
+        </div>
+        <div class="grid" id="project-grid"><!-- rendered by script.js --></div>
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section class="section" id="skills">
+      <div class="container">
+        <h2 class="section__title reveal">Skills &amp; tools</h2>
+        <div class="skills">
+          <div class="skill-group reveal">
+            <h3>Languages</h3>
+            <ul class="tags"><li>Python</li><li>SQL</li></ul>
+          </div>
+          <div class="skill-group reveal">
+            <h3>Data</h3>
+            <ul class="tags"><li>pandas</li><li>NumPy</li><li>Excel / CSV</li><li>Data cleaning</li></ul>
+          </div>
+          <div class="skill-group reveal">
+            <h3>Visualisation</h3>
+            <ul class="tags"><li>Matplotlib</li><li>Seaborn</li><li>Heatmaps</li><li>KDE plots</li></ul>
+          </div>
+          <div class="skill-group reveal">
+            <h3>Machine learning</h3>
+            <ul class="tags"><li>scikit-learn</li><li>Linear Regression</li><li>SVR</li><li>Decision Trees</li><li>Naive Bayes</li><li>Feature scaling</li><li>Label encoding</li></ul>
+          </div>
+          <div class="skill-group reveal">
+            <h3>Workflow</h3>
+            <ul class="tags"><li>Jupyter</li><li>Git &amp; GitHub</li><li>Train/test splits</li><li>Model evaluation</li></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="section section--alt" id="contact">
+      <div class="container contact reveal">
+        <h2 class="section__title">Let's work together</h2>
+        <p class="lead">Have a dataset that needs exploring or a model to build? Send me a message.</p>
+        <form class="form" id="contact-form" novalidate>
+          <div class="form__row">
+            <label>Name<input name="name" type="text" autocomplete="name" required></label>
+            <label>Email<input name="email" type="email" autocomplete="email" required></label>
+          </div>
+          <label>Message<textarea name="message" rows="5" required></textarea></label>
+          <button class="btn btn--primary" type="submit">Send message</button>
+          <p class="form__status" id="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p>© <span id="year"></span> Komen. Built with HTML, CSS &amp; JavaScript.</p>
+      <a href="https://github.com/komendenis" target="_blank" rel="noopener">github.com/komendenis</a>
+    </div>
+  </footer>
+
+  <script src="assets/script.js"></script>
+</body>
+</html>
