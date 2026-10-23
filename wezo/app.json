@@ -1,0 +1,22 @@
+{
+  "expo": {
+    "name": "WEZO",
+    "slug": "wezo",
+    "scheme": "wezo",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.wezo.app"
+    },
+    "android": {
+      "package": "com.wezo.app"
+    },
+    "web": {
+      "bundler": "metro"
+    },
+    "plugins": ["expo-router"]
+  }
+}
