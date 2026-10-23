@@ -16,6 +16,8 @@ function RootStack() {
   return (
     <Stack screenOptions={{ headerTintColor: colors.primary }}>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen name="chat" options={{ title: '', headerBackTitle: 'Back' }} />
+      <Stack.Screen name="rates" options={{ title: 'Rates' }} />
       <Stack.Screen name="countries" options={{ presentation: 'modal', title: 'Choose country' }} />
       <Stack.Screen name="call" options={{ presentation: 'fullScreenModal', headerShown: false, gestureEnabled: false }} />
     </Stack>

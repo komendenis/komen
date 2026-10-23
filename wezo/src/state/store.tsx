@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { defaultCountryCode } from '../data/countries';
+import type { MessageStatus } from '../services/messageService';
 
 export type Contact = {
   id: string;
@@ -19,12 +20,32 @@ export type CallRecord = {
   cost: number;
 };
 
+export type Message = {
+  id: string;
+  text: string;
+  sentAt: number;
+  status: MessageStatus;
+  cost: number;
+};
+
+export type Thread = {
+  id: string; // `${countryCode}:${number}`
+  countryCode: string;
+  number: string;
+  name?: string;
+  messages: Message[]; // oldest first
+  updatedAt: number;
+};
+
 type PersistedState = {
   balance: number;
   countryCode: string;
   contacts: Contact[];
   recents: CallRecord[];
+  threads: Thread[];
 };
+
+type OutgoingMessage = { countryCode: string; number: string; name?: string; text: string; cost: number };
 
 type Store = PersistedState & {
   ready: boolean;
@@ -34,7 +55,12 @@ type Store = PersistedState & {
   recordCall: (c: Omit<CallRecord, 'id'>) => void;
   clearRecents: () => void;
   topUp: (amount: number) => void;
+  addMessage: (m: OutgoingMessage) => { threadId: string; messageId: string };
+  setMessageStatus: (threadId: string, messageId: string, status: MessageStatus) => void;
+  deleteThread: (threadId: string) => void;
 };
+
+export const threadIdOf = (countryCode: string, number: string) => `${countryCode}:${number}`;
 
 const STORAGE_KEY = 'wezo-state-v1';
 
@@ -43,6 +69,7 @@ const initialState: PersistedState = {
   countryCode: defaultCountryCode,
   contacts: [],
   recents: [],
+  threads: [],
 };
 
 const StoreContext = createContext<Store | null>(null);
@@ -99,9 +126,56 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     [],
   );
 
+  const addMessage = useCallback((m: OutgoingMessage) => {
+    const threadId = threadIdOf(m.countryCode, m.number);
+    const message: Message = { id: newId(), text: m.text, sentAt: Date.now(), status: 'sending', cost: m.cost };
+    setState((s) => {
+      const existing = s.threads.find((t) => t.id === threadId);
+      const thread: Thread = existing
+        ? { ...existing, name: m.name || existing.name, messages: [...existing.messages, message], updatedAt: message.sentAt }
+        : { id: threadId, countryCode: m.countryCode, number: m.number, name: m.name, messages: [message], updatedAt: message.sentAt };
+      return {
+        ...s,
+        balance: Math.max(0, +(s.balance - m.cost).toFixed(2)),
+        threads: [thread, ...s.threads.filter((t) => t.id !== threadId)],
+      };
+    });
+    return { threadId, messageId: message.id };
+  }, []);
+
+  const setMessageStatus = useCallback(
+    (threadId: string, messageId: string, status: MessageStatus) =>
+      setState((s) => ({
+        ...s,
+        threads: s.threads.map((t) =>
+          t.id !== threadId
+            ? t
+            : { ...t, messages: t.messages.map((msg) => (msg.id === messageId ? { ...msg, status } : msg)) },
+        ),
+      })),
+    [],
+  );
+
+  const deleteThread = useCallback(
+    (threadId: string) => setState((s) => ({ ...s, threads: s.threads.filter((t) => t.id !== threadId) })),
+    [],
+  );
+
   const value = useMemo(
-    () => ({ ...state, ready, setCountry, addContact, removeContact, recordCall, clearRecents, topUp }),
-    [state, ready, setCountry, addContact, removeContact, recordCall, clearRecents, topUp],
+    () => ({
+      ...state,
+      ready,
+      setCountry,
+      addContact,
+      removeContact,
+      recordCall,
+      clearRecents,
+      topUp,
+      addMessage,
+      setMessageStatus,
+      deleteThread,
+    }),
+    [state, ready, setCountry, addContact, removeContact, recordCall, clearRecents, topUp, addMessage, setMessageStatus, deleteThread],
   );
 
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;

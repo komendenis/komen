@@ -55,3 +55,8 @@ export function findCountry(code: string): Country {
 export function flagOf(code: string): string {
   return String.fromCodePoint(...[...code.toUpperCase()].map((ch) => 0x1f1e6 + ch.charCodeAt(0) - 65));
 }
+
+/** Price of one outgoing SMS (USD). Placeholder pricing until rates come from the backend. */
+export function smsRateOf(country: Country): number {
+  return Math.max(0.03, +(country.rate * 0.75).toFixed(2));
+}

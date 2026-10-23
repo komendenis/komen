@@ -6,6 +6,7 @@ import { findCountry, flagOf } from '../../src/data/countries';
 import { Contact, useStore } from '../../src/state/store';
 import { colors, radius } from '../../src/theme';
 import { formatLocal, formatRate } from '../../src/utils/format';
+import { openChat } from '../../src/utils/openChat';
 import { placeCall } from '../../src/utils/placeCall';
 
 export default function ContactsScreen() {
@@ -83,6 +84,13 @@ export default function ContactsScreen() {
                   {flagOf(country.code)} +{country.dial} {formatLocal(item.number)} · {formatRate(country.rate)}
                 </Text>
               </View>
+              <Pressable
+                onPress={() => openChat(item.countryCode, item.number, item.name)}
+                hitSlop={8}
+                accessibilityLabel={`Message ${item.name}`}
+              >
+                <Ionicons name="chatbubble-outline" size={21} color={colors.primary} />
+              </Pressable>
               <Ionicons name="call" size={22} color={colors.accent} />
             </Pressable>
           );

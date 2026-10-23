@@ -1,3 +1,5 @@
+import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { callProvider } from '../../src/services/callService';
 import { useStore } from '../../src/state/store';
@@ -35,11 +37,17 @@ export default function AccountScreen() {
         ))}
       </View>
 
+      <Pressable style={styles.link} onPress={() => router.push('/rates')}>
+        <Ionicons name="globe-outline" size={20} color={colors.primary} />
+        <Text style={styles.linkText}>Calling rates by country</Text>
+        <Ionicons name="chevron-forward" size={18} color={colors.muted} />
+      </Pressable>
+
       {callProvider.isDemo && (
         <View style={styles.notice}>
           <Text style={styles.noticeTitle}>Demo mode</Text>
           <Text style={styles.noticeText}>
-            Calls are simulated and top-ups are free; no real money is charged. Connect a VoIP provider
+            Calls and messages are simulated and top-ups are free; no real money is charged. Connect a VoIP provider
             and a payment provider to go live (see README).
           </Text>
         </View>
@@ -67,6 +75,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   amountText: { fontSize: 17, fontWeight: '700', color: colors.primary },
+  link: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    backgroundColor: colors.card,
+    borderRadius: radius.md,
+    padding: 14,
+  },
+  linkText: { flex: 1, fontSize: 14, fontWeight: '600', color: colors.text },
   notice: { backgroundColor: '#FFF6E5', borderRadius: radius.md, padding: 14 },
   noticeTitle: { fontWeight: '700', color: '#8A5A00', marginBottom: 4 },
   noticeText: { color: '#8A5A00', lineHeight: 20 },
