@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     borderRadius: radius.md,
     padding: 12,
   },
-  flag: { fontSize: 28 },
-  name: { fontSize: 16, fontWeight: '600', color: colors.text },
+  flag: { fontSize: 22 },
+  name: { fontSize: 14, fontWeight: '600', color: colors.text },
   sub: { color: colors.muted, marginTop: 2 },
 });

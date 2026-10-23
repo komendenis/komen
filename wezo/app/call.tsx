@@ -154,7 +154,7 @@ export default function CallScreen() {
           onPress={() => session.current?.hangup()}
           accessibilityLabel="End call"
         >
-          <Ionicons name="call" size={34} color="#fff" style={{ transform: [{ rotate: '135deg' }] }} />
+          <Ionicons name="call" size={30} color="#fff" style={{ transform: [{ rotate: '135deg' }] }} />
         </Pressable>
       </View>
     </SafeAreaView>
@@ -172,7 +172,7 @@ function Control({ icon, label, active, onPress }: ControlProps) {
   return (
     <Pressable style={styles.control} onPress={onPress}>
       <View style={[styles.controlIcon, active && styles.controlActive]}>
-        <Ionicons name={icon} size={28} color={active ? colors.primaryDark : '#fff'} />
+        <Ionicons name={icon} size={24} color={active ? colors.primaryDark : '#fff'} />
       </View>
       <Text style={styles.controlLabel}>{label}</Text>
     </Pressable>
@@ -182,17 +182,17 @@ function Control({ icon, label, active, onPress }: ControlProps) {
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.primaryDark, alignItems: 'center', justifyContent: 'space-between' },
   header: { alignItems: 'center', paddingTop: 48, paddingHorizontal: 24, gap: 6 },
-  flag: { fontSize: 56 },
-  title: { color: '#fff', fontSize: 30, fontWeight: '700' },
-  status: { color: '#fff', fontSize: 20, marginTop: 8 },
-  sub: { color: 'rgba(255,255,255,0.75)', fontSize: 15 },
-  demo: { color: colors.accent, fontSize: 12, fontWeight: '700', marginTop: 8, letterSpacing: 0.5 },
+  flag: { fontSize: 44 },
+  title: { color: '#fff', fontSize: 24, fontWeight: '700' },
+  status: { color: '#fff', fontSize: 17, marginTop: 8 },
+  sub: { color: 'rgba(255,255,255,0.75)', fontSize: 13 },
+  demo: { color: colors.accent, fontSize: 11, fontWeight: '700', marginTop: 8, letterSpacing: 0.5 },
   controls: { flexDirection: 'row', gap: 28 },
   control: { alignItems: 'center', gap: 8 },
   controlIcon: {
-    width: 72,
-    height: 72,
-    borderRadius: 36,
+    width: 62,
+    height: 62,
+    borderRadius: 31,
     backgroundColor: 'rgba(255,255,255,0.15)',
     alignItems: 'center',
     justifyContent: 'center',
@@ -200,11 +200,11 @@ const styles = StyleSheet.create({
   controlActive: { backgroundColor: '#fff' },
   controlLabel: { color: '#fff' },
   footer: { alignItems: 'center', gap: 16, paddingBottom: 40 },
-  hide: { color: '#fff', fontSize: 16 },
+  hide: { color: '#fff', fontSize: 14 },
   endBtn: {
-    width: 76,
-    height: 76,
-    borderRadius: 38,
+    width: 66,
+    height: 66,
+    borderRadius: 33,
     backgroundColor: colors.danger,
     alignItems: 'center',
     justifyContent: 'center',

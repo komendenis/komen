@@ -46,7 +46,7 @@ export default function KeypadScreen() {
           onPress={() => placeCall(countryCode, digits, match?.name)}
           accessibilityLabel="Call"
         >
-          <Ionicons name="call" size={32} color="#fff" />
+          <Ionicons name="call" size={28} color="#fff" />
         </Pressable>
         <Pressable
           style={styles.side}
@@ -55,7 +55,7 @@ export default function KeypadScreen() {
           disabled={!digits}
           accessibilityLabel="Delete"
         >
-          {!!digits && <Ionicons name="backspace-outline" size={28} color={colors.muted} />}
+          {!!digits && <Ionicons name="backspace-outline" size={24} color={colors.muted} />}
         </Pressable>
       </View>
     </View>
@@ -67,14 +67,14 @@ const styles = StyleSheet.create({
   top: { alignSelf: 'stretch', gap: 8 },
   balance: { textAlign: 'right', color: colors.primary, fontWeight: '600' },
   display: { alignSelf: 'stretch', alignItems: 'center', minHeight: 70, justifyContent: 'center' },
-  number: { fontSize: 32, fontWeight: '500', color: colors.text },
+  number: { fontSize: 24, fontWeight: '500', color: colors.text },
   hint: { color: colors.muted, marginTop: 4 },
   actions: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 36 },
   side: { width: 56, height: 56, alignItems: 'center', justifyContent: 'center' },
   callBtn: {
-    width: 76,
-    height: 76,
-    borderRadius: 38,
+    width: 66,
+    height: 66,
+    borderRadius: 33,
     backgroundColor: colors.accent,
     alignItems: 'center',
     justifyContent: 'center',

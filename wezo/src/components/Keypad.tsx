@@ -30,9 +30,9 @@ export function Keypad({ onPress, dark }: Props) {
 const styles = StyleSheet.create({
   grid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 18, maxWidth: 300 },
   key: {
-    width: 76,
-    height: 76,
-    borderRadius: 38,
+    width: 66,
+    height: 66,
+    borderRadius: 33,
     backgroundColor: colors.card,
     alignItems: 'center',
     justifyContent: 'center',
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   },
   keyDark: { backgroundColor: 'rgba(255,255,255,0.12)', borderColor: 'transparent' },
   pressed: { opacity: 0.6 },
-  digit: { fontSize: 30, color: colors.text },
-  letters: { fontSize: 10, letterSpacing: 1.5, color: colors.muted, marginTop: -2 },
+  digit: { fontSize: 24, color: colors.text },
+  letters: { fontSize: 9, letterSpacing: 1.5, color: colors.muted, marginTop: -2 },
   light: { color: '#fff' },
 });
