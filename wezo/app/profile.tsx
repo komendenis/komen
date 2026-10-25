@@ -1,77 +1,89 @@
+import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { useState } from 'react';
-import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
-import { formStyles, PrimaryButton } from '../src/components/ui';
+import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Card } from '../src/components/ui';
+import { accessPointName } from '../src/data/accessPoints';
 import { useStore } from '../src/state/store';
 import { colors } from '../src/theme';
 
 export default function ProfileScreen() {
-  const { profile, updateProfile } = useStore();
-  const [name, setName] = useState(profile.name);
-  const [email, setEmail] = useState(profile.email);
-  const [phone, setPhone] = useState(profile.phone);
-  const [error, setError] = useState('');
+  const { profile, resetAll } = useStore();
 
-  const save = () => {
-    if (email.trim() && !/^\S+@\S+\.\S+$/.test(email.trim())) {
-      setError('Enter a valid email address, or leave it empty.');
-      return;
-    }
-    updateProfile({ name: name.trim(), email: email.trim(), phone: phone.trim() });
-    router.back();
-  };
+  const confirmDelete = () =>
+    Alert.alert(
+      'Delete account',
+      'This deletes your WEZO account, remaining credit, contacts, call history and messages. It cannot be undone.',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        { text: 'Delete account', style: 'destructive', onPress: resetAll },
+      ],
+    );
 
   return (
-    <ScrollView style={styles.screen} contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
-      <View style={styles.avatar}>
-        <Text style={styles.avatarText}>{(name.trim()[0] ?? '?').toUpperCase()}</Text>
-      </View>
-      <View>
-        <Text style={formStyles.label}>Name</Text>
-        <TextInput style={formStyles.input} value={name} onChangeText={setName} placeholder="Your name" />
-      </View>
-      <View>
-        <Text style={formStyles.label}>Your phone number</Text>
-        <TextInput
-          style={formStyles.input}
-          value={phone}
-          onChangeText={setPhone}
-          placeholder="+1 555 123 4567"
-          keyboardType="phone-pad"
+    <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
+      <Text style={styles.group}>Personal info</Text>
+      <Card>
+        <InfoRow
+          label="Name"
+          value={profile.name || 'Add'}
+          onPress={() => router.push({ pathname: '/profile-edit', params: { field: 'name' } })}
         />
-      </View>
-      <View>
-        <Text style={formStyles.label}>Email (for receipts)</Text>
-        <TextInput
-          style={formStyles.input}
-          value={email}
-          onChangeText={(t) => {
-            setEmail(t);
-            setError('');
-          }}
-          placeholder="you@example.com"
-          keyboardType="email-address"
-          autoCapitalize="none"
+        <InfoRow
+          label="Email"
+          value={profile.email || 'Add'}
+          onPress={() => router.push({ pathname: '/profile-edit', params: { field: 'email' } })}
         />
-      </View>
-      {!!error && <Text style={formStyles.error}>{error}</Text>}
-      <PrimaryButton label="Save" onPress={save} />
+        <InfoRow label="My number" value={profile.phone || '–'} last />
+      </Card>
+
+      <Text style={styles.group}>Settings</Text>
+      <Card>
+        <InfoRow
+          label="Access point"
+          value={accessPointName(profile.accessPoint)}
+          onPress={() => router.push('/access-point')}
+        />
+        <Pressable style={[styles.row, styles.last]} onPress={confirmDelete}>
+          <Text style={[styles.label, { color: colors.primary }]}>Delete account</Text>
+        </Pressable>
+      </Card>
     </ScrollView>
+  );
+}
+
+function InfoRow({ label, value, onPress, last }: { label: string; value: string; onPress?: () => void; last?: boolean }) {
+  const content = (
+    <>
+      <Text style={styles.label}>{label}</Text>
+      <Text style={styles.value} numberOfLines={1}>
+        {value}
+      </Text>
+      {onPress && <Ionicons name="chevron-forward" size={16} color={colors.muted} />}
+    </>
+  );
+  return onPress ? (
+    <Pressable style={({ pressed }) => [styles.row, last && styles.last, pressed && { opacity: 0.6 }]} onPress={onPress}>
+      {content}
+    </Pressable>
+  ) : (
+    <View style={[styles.row, last && styles.last]}>{content}</View>
   );
 }
 
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.bg },
-  content: { padding: 16, gap: 14 },
-  avatar: {
-    width: 72,
-    height: 72,
-    borderRadius: 36,
-    backgroundColor: colors.primary,
+  content: { padding: 16, paddingBottom: 32 },
+  group: { fontSize: 13, color: colors.muted, marginTop: 12, marginBottom: 8, marginLeft: 4 },
+  row: {
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    alignSelf: 'center',
-    marginVertical: 8,
+    gap: 10,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: colors.border,
   },
-  avatarText: { color: '#fff', fontSize: 28, fontWeight: '700' },
+  last: { borderBottomWidth: 0 },
+  label: { fontSize: 14, color: colors.text },
+  value: { flex: 1, fontSize: 14, color: colors.muted, textAlign: 'right' },
 });

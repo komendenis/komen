@@ -10,7 +10,8 @@ International calling app (in the spirit of Rebtel), built with React Native + E
 - **Messages**: text anyone abroad; conversations list, chat screen with sent/delivered status,
   per-message price and a 160-character limit. Start a chat from Messages or from a contact.
 - **Account**: "Hello <name>" greeting, balance with a Top up button, and a menu with:
-  - **Profile**: name, your phone number and email for receipts.
+  - **Profile**: personal info (name and email, tap to edit; your number from sign-in), access point
+    (city whose local number carries calls without mobile data) and delete account.
   - **Top up**: $5–$50 or a custom amount, card / M-Pesa / PayPal, estimated minutes, payment history.
   - **Invite / Get free credit**: your invite code to share, and a field to redeem a friend's code ($1).
   - **Monthly recaps**: minutes, calls, texts, money spent, credit added and most-called country per month.

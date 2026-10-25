@@ -41,6 +41,7 @@ export type Profile = {
   name: string;
   email: string;
   phone: string; // the user's own number, as typed
+  accessPoint: string; // id from src/data/accessPoints.ts
 };
 
 export type Settings = {
@@ -115,7 +116,7 @@ const makeInitialState = (): PersistedState => ({
   contacts: [],
   recents: [],
   threads: [],
-  profile: { name: '', email: '', phone: '' },
+  profile: { name: '', email: '', phone: '', accessPoint: 'auto' },
   settings: {
     notifyCalls: true,
     notifyMessages: true,
