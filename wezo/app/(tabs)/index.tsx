@@ -2,6 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { CountryButton } from '../../src/components/CountryButton';
 import { Keypad } from '../../src/components/Keypad';
 import { findCountry } from '../../src/data/countries';
@@ -12,6 +13,7 @@ import { placeCall } from '../../src/utils/placeCall';
 
 export default function KeypadScreen() {
   const { countryCode, balance, contacts } = useStore();
+  const insets = useSafeAreaInsets();
   const [digits, setDigits] = useState('');
   const country = findCountry(countryCode);
   const match = contacts.find((c) => c.countryCode === countryCode && c.number === digits);
@@ -21,7 +23,7 @@ export default function KeypadScreen() {
   };
 
   return (
-    <View style={styles.screen}>
+    <View style={[styles.screen, { paddingTop: insets.top + 12 }]}>
       <View style={styles.top}>
         <CountryButton />
         <Pressable onPress={() => router.push('/account')}>

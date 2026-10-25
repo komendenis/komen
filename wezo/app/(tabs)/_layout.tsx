@@ -1,7 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import { ComponentProps } from 'react';
-import { Logo } from '../../src/components/Logo';
 import { colors } from '../../src/theme';
 
 type IconName = ComponentProps<typeof Ionicons>['name'];
@@ -20,7 +19,7 @@ export default function TabsLayout() {
         headerTitleStyle: { fontWeight: '700' },
       }}
     >
-      <Tabs.Screen name="index" options={{ title: 'Keypad', headerTitle: () => <Logo />, tabBarIcon: icon('keypad') }} />
+      <Tabs.Screen name="index" options={{ title: 'Keypad', headerShown: false, tabBarIcon: icon('keypad') }} />
       <Tabs.Screen name="contacts" options={{ title: 'Contacts', tabBarIcon: icon('people') }} />
       <Tabs.Screen name="messages" options={{ title: 'Messages', tabBarIcon: icon('chatbubbles') }} />
       <Tabs.Screen name="recents" options={{ title: 'Recents', tabBarIcon: icon('time') }} />
