@@ -13,6 +13,9 @@ International calling app (in the spirit of Rebtel), built with React Native + E
 - **In-call screen**: ringing → connected timer, live cost, mute, speaker, DTMF keypad, hang up.
   Calls are billed per started minute and end automatically when credit runs out.
 
+Branding: pink-red WEZO logo (a "W" with signal waves) in `assets/`: `logo.svg` is the source, with the
+app icon, Android adaptive icon, favicon and header logo rendered from it.
+
 Data (balance, contacts, recents, selected country) is stored on the device with AsyncStorage.
 
 ## Run it
@@ -55,8 +58,9 @@ app/                 Expo Router screens
   chat.tsx           Conversation screen
   rates.tsx          Calling rates
   countries.tsx      Country picker modal
+assets/              Logo (SVG source) and app icons
 src/
-  components/        Keypad, CountryButton, CountryList
+  components/        Keypad, CountryButton, CountryList, Logo
   data/countries.ts  Countries, calling codes, rates
   services/          Calling and messaging providers + demo versions
   state/store.tsx    App state + persistence

@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: colors.border,
   },
-  selected: { backgroundColor: '#EEE7FF' },
+  selected: { backgroundColor: colors.selected },
   flag: { fontSize: 20 },
   name: { flex: 1, fontSize: 14, color: colors.text },
   dial: { color: colors.muted, width: 56 },
