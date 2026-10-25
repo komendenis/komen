@@ -42,7 +42,44 @@ npx expo start
 
 Scan the QR code with **Expo Go** (Android/iOS), or press `w` to open it in a browser.
 
-## Demo mode
+## Install on a phone
+
+Builds run on Expo's cloud service (EAS Build). You need a free account at https://expo.dev.
+
+```bash
+cd wezo
+npm install
+npx expo install --fix
+npx eas-cli login
+npx eas-cli init          # links the project to your Expo account (first time only)
+```
+
+**Android (free, same day):**
+
+```bash
+npm run build:android     # builds an APK
+```
+
+When the build finishes, open the link it prints on the Android phone, download the APK and install it
+(allow "install unknown apps" for your browser when asked).
+
+**iPhone (needs an Apple Developer account, $99/year):**
+
+```bash
+npm run build:ios         # signs and builds for the App Store / TestFlight
+npm run submit:ios        # uploads the build to App Store Connect
+```
+
+EAS asks you to sign in with your Apple ID and creates the certificates for you. When Apple has
+processed the upload (usually under an hour), add yourself as a tester in App Store Connect →
+TestFlight and install WEZO with the TestFlight app.
+
+The bundle ID `com.wezo.app` (in `app.json`) must be unique on Apple's and Google's stores. If it is
+already taken, change `ios.bundleIdentifier` and `android.package` to something like `com.yourname.wezo`.
+
+Publishing in the App Store or Google Play needs store review, and real calling and payments first.
+
+
 
 Out of the box, calling, messaging and payments are **simulated**: `src/services/callService.ts`
 ships a `demoProvider` that fakes ringing and answering, `src/services/messageService.ts` fakes SMS
