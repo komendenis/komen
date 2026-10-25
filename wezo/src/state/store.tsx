@@ -44,6 +44,10 @@ export type Profile = {
 };
 
 export type Settings = {
+  notifyCalls: boolean;
+  notifyMessages: boolean;
+  notifyAccount: boolean; // low balance, top-up receipts
+  notifyOffers: boolean;
   lowBalanceAlert: boolean;
   autoTopUp: boolean;
   autoTopUpAmount: number;
@@ -73,6 +77,7 @@ type PersistedState = {
   payments: Payment[]; // newest first
   inviteCode: string;
   inviteRedeemed: boolean;
+  signedIn: boolean;
 };
 
 type OutgoingMessage = { countryCode: string; number: string; name?: string; text: string; cost: number };
@@ -89,6 +94,8 @@ type Store = PersistedState & {
   updateSettings: (p: Partial<Settings>) => void;
   redeemInvite: (code: string) => string | null; // error message, or null on success
   resetAll: () => void;
+  signIn: (name: string, phone: string) => void;
+  signOut: () => void;
   addMessage: (m: OutgoingMessage) => { threadId: string; messageId: string };
   setMessageStatus: (threadId: string, messageId: string, status: MessageStatus) => void;
   deleteThread: (threadId: string) => void;
@@ -109,10 +116,19 @@ const makeInitialState = (): PersistedState => ({
   recents: [],
   threads: [],
   profile: { name: '', email: '', phone: '' },
-  settings: { lowBalanceAlert: true, autoTopUp: false, autoTopUpAmount: 10 },
+  settings: {
+    notifyCalls: true,
+    notifyMessages: true,
+    notifyAccount: true,
+    notifyOffers: false,
+    lowBalanceAlert: true,
+    autoTopUp: false,
+    autoTopUpAmount: 10,
+  },
   payments: [],
   inviteCode: newInviteCode(),
   inviteRedeemed: false,
+  signedIn: false,
 });
 
 const initialState = makeInitialState();
@@ -147,6 +163,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
           ...saved,
           profile: { ...initialState.profile, ...saved.profile },
           settings: { ...initialState.settings, ...saved.settings },
+          signedIn: saved.signedIn ?? true, // data saved before sign-in existed belongs to a signed-in user
         });
       })
       .catch(() => {})
@@ -211,6 +228,16 @@ export function StoreProvider({ children }: { children: ReactNode }) {
 
   const resetAll = useCallback(() => setState(makeInitialState()), []);
 
+  // Demo sign-in: no SMS verification yet. A real backend must verify the phone number.
+  const signIn = useCallback(
+    (name: string, phone: string) =>
+      setState((s) => ({ ...s, signedIn: true, profile: { ...s.profile, name, phone } })),
+    [],
+  );
+
+  // Keeps calls, messages and contacts on the phone so they are back after signing in again.
+  const signOut = useCallback(() => setState((s) => ({ ...s, signedIn: false })), []);
+
   const addMessage = useCallback((m: OutgoingMessage) => {
     const threadId = threadIdOf(m.countryCode, m.number);
     const message: Message = { id: newId(), text: m.text, sentAt: Date.now(), status: 'sending', cost: m.cost };
@@ -259,6 +286,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       updateSettings,
       redeemInvite,
       resetAll,
+      signIn,
+      signOut,
     }),
     [
       state,
@@ -276,6 +305,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       updateSettings,
       redeemInvite,
       resetAll,
+      signIn,
+      signOut,
     ],
   );
 

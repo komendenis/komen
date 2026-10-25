@@ -15,9 +15,12 @@ International calling app (in the spirit of Rebtel), built with React Native + E
   - **Invite / Get free credit**: your invite code to share, and a field to redeem a friend's code ($1).
   - **Monthly recaps**: minutes, calls, texts, money spent, credit added and most-called country per month.
   - **Calling rates** for 37 countries.
-  - **Settings**: default country, low-balance alert, auto top-up ($5/$10/$25 when credit drops below $1),
-    app version and reset app data.
+  - **Settings**: default country; notification preferences (calls, messages, account, offers);
+    low-balance alert; auto top-up ($5/$10/$25 when credit drops below $1); app version; log out;
+    reset app data.
   - **Help**: common questions and the support contact.
+- **Welcome / sign-in** with phone number and name, shown on first launch and after logging out
+  (demo: no SMS verification yet; contacts, calls and messages stay on the phone after logging out).
 - **Low-balance banner** on the keypad showing the minutes left, with a shortcut to top up.
 - **In-call screen**: ringing → connected timer, live cost, mute, speaker, DTMF keypad, hang up.
   Calls are billed per started minute and end automatically when credit runs out.
@@ -55,7 +58,8 @@ sending and delivery, and top-ups add free credit. No real call or SMS is sent a
 3. **Backend**: a small server that issues VoIP access tokens, holds user balances, and
    charges calls from the provider's call-completed webhooks (never trust the client for billing).
 4. **Payments**: in-app purchases or Stripe for top-ups.
-5. **Auth**: phone number sign-up with SMS verification.
+5. **Auth**: SMS verification for the sign-in screen, and real push notifications (expo-notifications)
+   for the notification settings.
 6. **Rates**: load rates from the backend instead of `src/data/countries.ts`.
 
 ## Structure

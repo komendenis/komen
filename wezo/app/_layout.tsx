@@ -1,11 +1,12 @@
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { ActivityIndicator, View } from 'react-native';
+import { WelcomeScreen } from '../src/screens/WelcomeScreen';
 import { StoreProvider, useStore } from '../src/state/store';
 import { colors } from '../src/theme';
 
 function RootStack() {
-  const { ready } = useStore();
+  const { ready, signedIn } = useStore();
   if (!ready) {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.bg }}>
@@ -13,6 +14,7 @@ function RootStack() {
       </View>
     );
   }
+  if (!signedIn) return <WelcomeScreen />;
   return (
     <Stack screenOptions={{ headerTintColor: colors.primary }}>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />

@@ -10,7 +10,13 @@ import { formatMoney } from '../src/utils/format';
 const AUTO_AMOUNTS = [5, 10, 25];
 
 export default function SettingsScreen() {
-  const { settings, updateSettings, resetAll } = useStore();
+  const { settings, updateSettings, resetAll, signOut, profile } = useStore();
+
+  const confirmLogout = () =>
+    Alert.alert('Log out', 'Log out of WEZO on this phone? Your calls, messages and contacts stay saved.', [
+      { text: 'Cancel', style: 'cancel' },
+      { text: 'Log out', style: 'destructive', onPress: signOut },
+    ]);
 
   const confirmReset = () =>
     Alert.alert(
@@ -34,6 +40,35 @@ export default function SettingsScreen() {
       <SectionTitle>Calling</SectionTitle>
       <Text style={styles.help}>Default country for the keypad</Text>
       <CountryButton />
+
+      <SectionTitle>Notifications</SectionTitle>
+      <Card>
+        <ToggleRow
+          label="Calls"
+          detail="Incoming and missed calls"
+          value={settings.notifyCalls}
+          onChange={(v) => updateSettings({ notifyCalls: v })}
+        />
+        <ToggleRow
+          label="Messages"
+          detail="New texts and delivery problems"
+          value={settings.notifyMessages}
+          onChange={(v) => updateSettings({ notifyMessages: v })}
+        />
+        <ToggleRow
+          label="Account"
+          detail="Low balance, top-up receipts and auto top-ups"
+          value={settings.notifyAccount}
+          onChange={(v) => updateSettings({ notifyAccount: v })}
+        />
+        <ToggleRow
+          label="Offers"
+          detail="Free credit and cheaper rates"
+          value={settings.notifyOffers}
+          onChange={(v) => updateSettings({ notifyOffers: v })}
+        />
+      </Card>
+      <Text style={styles.help}>Push notifications start once the WEZO backend is connected.</Text>
 
       <SectionTitle>Balance</SectionTitle>
       <Card>
@@ -73,6 +108,14 @@ export default function SettingsScreen() {
           <Text style={styles.label}>Version</Text>
           <Text style={styles.value}>{Constants.expoConfig?.version ?? '–'}</Text>
         </View>
+        <Pressable style={styles.row} onPress={confirmLogout}>
+          <View style={{ flex: 1, gap: 2 }}>
+            <Text style={[styles.label, { color: colors.primary, fontWeight: '600' }]}>Log out</Text>
+            {!!(profile.name || profile.phone) && (
+              <Text style={styles.detail}>Signed in as {profile.name || profile.phone}</Text>
+            )}
+          </View>
+        </Pressable>
         <Pressable style={styles.row} onPress={confirmReset}>
           <Text style={[styles.label, { color: colors.danger }]}>Reset app data</Text>
         </Pressable>
@@ -106,7 +149,7 @@ function ToggleRow({
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.bg },
   content: { padding: 16, gap: 12, paddingBottom: 32 },
-  help: { fontSize: 12, color: colors.muted, marginBottom: -4 },
+  help: { fontSize: 12, color: colors.muted, marginTop: -4 },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
