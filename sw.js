@@ -1,9 +1,10 @@
 // Offline support: precache the app shell, serve it cache-first,
 // and fall back to the cached page when the network is unavailable.
-var CACHE = "komen-v1";
+var CACHE = "komen-v2";
 var SHELL = [
   "./",
   "index.html",
+  "privacy.html",
   "manifest.webmanifest",
   "assets/styles.css",
   "assets/script.js",

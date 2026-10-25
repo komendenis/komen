@@ -1,0 +1,9 @@
+{
+  "appId": "io.github.komendenis.komen",
+  "appName": "Komen",
+  "webDir": "www",
+  "backgroundColor": "#0d0f14",
+  "android": {
+    "allowMixedContent": false
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "name": "komen",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Komen data science portfolio, packaged as a web, Android and iOS app.",
+  "scripts": {
+    "build": "node scripts/build-www.mjs",
+    "assets": "capacitor-assets generate --assetPath resources --iconBackgroundColor '#4f46e5' --iconBackgroundColorDark '#4f46e5' --splashBackgroundColor '#fbfbfd' --splashBackgroundColorDark '#0d0f14'",
+    "sync": "npm run build && cap sync",
+    "android": "npm run sync && cap open android",
+    "ios": "npm run sync && cap open ios"
+  },
+  "dependencies": {
+    "@capacitor/android": "^7.0.0",
+    "@capacitor/core": "^7.0.0",
+    "@capacitor/ios": "^7.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
+    "@capacitor/cli": "^7.0.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
