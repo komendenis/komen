@@ -195,4 +195,28 @@
   });
 
   document.getElementById("year").textContent = new Date().getFullYear();
+
+  // ---- Installable app (PWA) ----
+  if ("serviceWorker" in navigator && /^https?:$/.test(location.protocol)) {
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("sw.js").catch(function () {});
+    });
+  }
+
+  var installBtn = document.getElementById("install-btn");
+  var deferredPrompt = null;
+  window.addEventListener("beforeinstallprompt", function (e) {
+    e.preventDefault();
+    deferredPrompt = e;
+    installBtn.hidden = false;
+  });
+  installBtn.addEventListener("click", function () {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.finally(function () {
+      deferredPrompt = null;
+      installBtn.hidden = true;
+    });
+  });
+  window.addEventListener("appinstalled", function () { installBtn.hidden = true; });
 })();

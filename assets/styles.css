@@ -113,6 +113,14 @@ p { margin: 0 0 1em; }
 .btn--primary { background: var(--accent); color: #fff; box-shadow: 0 6px 18px var(--accent-soft); }
 .btn--ghost { border-color: var(--border); color: var(--text); background: var(--surface); }
 .btn--ghost:hover { border-color: var(--accent); }
+.btn--install { padding: 0 14px; height: 40px; font-size: 0.88rem; background: var(--accent-soft); color: var(--accent); }
+.btn--install[hidden] { display: none; }
+
+/* Installed app: respect notches and the home indicator. */
+@media (display-mode: standalone) {
+  .nav { padding-top: env(safe-area-inset-top); }
+  .footer { padding-bottom: calc(32px + env(safe-area-inset-bottom)); }
+}
 
 /* ---------- Hero ---------- */
 .hero {
