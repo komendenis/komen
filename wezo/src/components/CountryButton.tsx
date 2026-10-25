@@ -36,8 +36,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.border,
   },
-  flag: { fontSize: 28 },
-  name: { fontSize: 16, fontWeight: '600', color: colors.text },
+  flag: { fontSize: 22 },
+  name: { fontSize: 14, fontWeight: '600', color: colors.text },
   dial: { color: colors.muted, fontWeight: '400' },
-  rate: { fontSize: 13, color: colors.accent, fontWeight: '600', marginTop: 2 },
+  rate: { fontSize: 12, color: colors.accent, fontWeight: '600', marginTop: 2 },
 });

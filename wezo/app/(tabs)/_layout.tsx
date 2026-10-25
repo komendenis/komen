@@ -19,11 +19,11 @@ export default function TabsLayout() {
         headerTitleStyle: { fontWeight: '700' },
       }}
     >
-      <Tabs.Screen name="index" options={{ title: 'Keypad', headerTitle: 'WEZO', tabBarIcon: icon('keypad') }} />
+      <Tabs.Screen name="index" options={{ title: 'Keypad', headerShown: false, tabBarIcon: icon('keypad') }} />
       <Tabs.Screen name="contacts" options={{ title: 'Contacts', tabBarIcon: icon('people') }} />
+      <Tabs.Screen name="messages" options={{ title: 'Messages', tabBarIcon: icon('chatbubbles') }} />
       <Tabs.Screen name="recents" options={{ title: 'Recents', tabBarIcon: icon('time') }} />
-      <Tabs.Screen name="rates" options={{ title: 'Rates', tabBarIcon: icon('globe') }} />
-      <Tabs.Screen name="account" options={{ title: 'Account', tabBarIcon: icon('wallet') }} />
+      <Tabs.Screen name="account" options={{ title: 'Account', headerShown: false, tabBarIcon: icon('person-circle') }} />
     </Tabs>
   );
 }

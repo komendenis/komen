@@ -6,6 +6,7 @@ import { findCountry, flagOf } from '../../src/data/countries';
 import { Contact, useStore } from '../../src/state/store';
 import { colors, radius } from '../../src/theme';
 import { formatLocal, formatRate } from '../../src/utils/format';
+import { openChat } from '../../src/utils/openChat';
 import { placeCall } from '../../src/utils/placeCall';
 
 export default function ContactsScreen() {
@@ -83,6 +84,13 @@ export default function ContactsScreen() {
                   {flagOf(country.code)} +{country.dial} {formatLocal(item.number)} · {formatRate(country.rate)}
                 </Text>
               </View>
+              <Pressable
+                onPress={() => openChat(item.countryCode, item.number, item.name)}
+                hitSlop={8}
+                accessibilityLabel={`Message ${item.name}`}
+              >
+                <Ionicons name="chatbubble-outline" size={21} color={colors.primary} />
+              </Pressable>
               <Ionicons name="call" size={22} color={colors.accent} />
             </Pressable>
           );
@@ -102,14 +110,14 @@ const styles = StyleSheet.create({
     borderColor: colors.border,
     paddingHorizontal: 16,
     paddingVertical: 12,
-    fontSize: 16,
+    fontSize: 14,
   },
   row: { flexDirection: 'row', gap: 10 },
   btn: { flex: 1, backgroundColor: colors.primary, borderRadius: radius.md, padding: 14, alignItems: 'center' },
   btnGhost: { backgroundColor: 'transparent', borderWidth: 1, borderColor: colors.primary },
-  btnText: { color: '#fff', fontWeight: '700', fontSize: 16 },
+  btnText: { color: '#fff', fontWeight: '700', fontSize: 14 },
   addRow: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingVertical: 6 },
-  addText: { color: colors.primary, fontWeight: '600', fontSize: 16 },
+  addText: { color: colors.primary, fontWeight: '600', fontSize: 14 },
   empty: { color: colors.muted, textAlign: 'center', marginTop: 40 },
   item: {
     flexDirection: 'row',
@@ -127,7 +135,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  avatarText: { color: '#fff', fontWeight: '700', fontSize: 18 },
-  name: { fontSize: 16, fontWeight: '600', color: colors.text },
+  avatarText: { color: '#fff', fontWeight: '700', fontSize: 15 },
+  name: { fontSize: 14, fontWeight: '600', color: colors.text },
   sub: { color: colors.muted, marginTop: 2 },
 });

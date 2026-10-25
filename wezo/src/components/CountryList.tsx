@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     borderColor: colors.border,
     paddingHorizontal: 16,
     paddingVertical: 12,
-    fontSize: 16,
+    fontSize: 14,
   },
   row: {
     flexDirection: 'row',
@@ -66,9 +66,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: colors.border,
   },
-  selected: { backgroundColor: '#EEE7FF' },
-  flag: { fontSize: 24 },
-  name: { flex: 1, fontSize: 16, color: colors.text },
+  selected: { backgroundColor: colors.selected },
+  flag: { fontSize: 20 },
+  name: { flex: 1, fontSize: 14, color: colors.text },
   dial: { color: colors.muted, width: 56 },
   rate: { color: colors.accent, fontWeight: '700', width: 74, textAlign: 'right' },
 });
