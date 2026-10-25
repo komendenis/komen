@@ -6,13 +6,13 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { CountryButton } from '../../src/components/CountryButton';
 import { Keypad } from '../../src/components/Keypad';
 import { findCountry } from '../../src/data/countries';
-import { useStore } from '../../src/state/store';
+import { AUTO_TOPUP_THRESHOLD, useStore } from '../../src/state/store';
 import { colors } from '../../src/theme';
 import { formatLocal, formatMoney } from '../../src/utils/format';
 import { placeCall } from '../../src/utils/placeCall';
 
 export default function KeypadScreen() {
-  const { countryCode, balance, contacts } = useStore();
+  const { countryCode, balance, contacts, settings } = useStore();
   const insets = useSafeAreaInsets();
   const [digits, setDigits] = useState('');
   const country = findCountry(countryCode);
@@ -24,9 +24,17 @@ export default function KeypadScreen() {
 
   return (
     <View style={[styles.screen, { paddingTop: insets.top + 12 }]}>
+      {settings.lowBalanceAlert && balance < AUTO_TOPUP_THRESHOLD && (
+        <Pressable style={styles.lowBanner} onPress={() => router.push('/topup')}>
+          <Text style={styles.lowText}>
+            Low credit: about {Math.floor(balance / country.rate)} min left to {country.name}.
+          </Text>
+          <Text style={styles.lowAction}>Add credit</Text>
+        </Pressable>
+      )}
       <View style={styles.top}>
         <CountryButton />
-        <Pressable onPress={() => router.push('/account')}>
+        <Pressable onPress={() => router.push('/topup')}>
           <Text style={styles.balance}>Balance {formatMoney(balance)}</Text>
         </Pressable>
       </View>
@@ -67,6 +75,18 @@ export default function KeypadScreen() {
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.bg, alignItems: 'center', padding: 16, gap: 16 },
   top: { alignSelf: 'stretch', gap: 8 },
+  lowBanner: {
+    alignSelf: 'stretch',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    backgroundColor: colors.selected,
+    borderRadius: 14,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+  },
+  lowText: { flex: 1, fontSize: 12, color: colors.text },
+  lowAction: { fontSize: 12, fontWeight: '700', color: colors.primary },
   balance: { textAlign: 'right', color: colors.primary, fontWeight: '600' },
   display: { alignSelf: 'stretch', alignItems: 'center', minHeight: 70, justifyContent: 'center' },
   number: { fontSize: 24, fontWeight: '500', color: colors.text },

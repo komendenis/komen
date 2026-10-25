@@ -17,7 +17,13 @@ function RootStack() {
     <Stack screenOptions={{ headerTintColor: colors.primary }}>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="chat" options={{ title: '', headerBackTitle: 'Back' }} />
-      <Stack.Screen name="rates" options={{ title: 'Rates' }} />
+      <Stack.Screen name="rates" options={{ title: 'Calling rates' }} />
+      <Stack.Screen name="profile" options={{ title: 'Profile' }} />
+      <Stack.Screen name="topup" options={{ title: 'Top up' }} />
+      <Stack.Screen name="invite" options={{ title: 'Invite friends' }} />
+      <Stack.Screen name="recaps" options={{ title: 'Monthly recaps' }} />
+      <Stack.Screen name="settings" options={{ title: 'Settings' }} />
+      <Stack.Screen name="help" options={{ title: 'Help' }} />
       <Stack.Screen name="countries" options={{ presentation: 'modal', title: 'Choose country' }} />
       <Stack.Screen name="call" options={{ presentation: 'fullScreenModal', headerShown: false, gestureEnabled: false }} />
     </Stack>

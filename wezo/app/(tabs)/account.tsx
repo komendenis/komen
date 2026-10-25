@@ -1,54 +1,62 @@
-import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Card, MenuRow } from '../../src/components/ui';
 import { callProvider } from '../../src/services/callService';
 import { useStore } from '../../src/state/store';
 import { colors, radius } from '../../src/theme';
 import { formatMoney } from '../../src/utils/format';
 
-const AMOUNTS = [5, 10, 25, 50];
-
 export default function AccountScreen() {
-  const { balance, topUp, recents } = useStore();
-  const minutesTalked = Math.round(recents.reduce((sum, r) => sum + r.durationSec, 0) / 60);
-
-  const buy = (amount: number) =>
-    Alert.alert('Add credit', `Add ${formatMoney(amount)} to your WEZO balance?`, [
-      { text: 'Cancel', style: 'cancel' },
-      { text: 'Add', onPress: () => topUp(amount) },
-    ]);
+  const { balance, profile, settings, inviteRedeemed } = useStore();
+  const insets = useSafeAreaInsets();
 
   return (
-    <ScrollView style={styles.screen} contentContainerStyle={{ padding: 16, gap: 16 }}>
-      <View style={styles.balanceCard}>
-        <Text style={styles.balanceLabel}>WEZO credit</Text>
-        <Text style={styles.balance}>{formatMoney(balance)}</Text>
-        <Text style={styles.balanceSub}>
-          {recents.length} calls · {minutesTalked} min talked
-        </Text>
-      </View>
-
-      <Text style={styles.section}>Top up</Text>
-      <View style={styles.grid}>
-        {AMOUNTS.map((a) => (
-          <Pressable key={a} style={styles.amount} onPress={() => buy(a)}>
-            <Text style={styles.amountText}>{formatMoney(a)}</Text>
+    <ScrollView style={styles.screen} contentContainerStyle={[styles.content, { paddingTop: insets.top + 20 }]}>
+      <View>
+        <Text style={styles.hello}>Hello</Text>
+        {profile.name ? (
+          <Text style={styles.name}>{profile.name}</Text>
+        ) : (
+          <Pressable onPress={() => router.push('/profile')}>
+            <Text style={[styles.name, { color: colors.primary }]}>Add your name</Text>
           </Pressable>
-        ))}
+        )}
       </View>
 
-      <Pressable style={styles.link} onPress={() => router.push('/rates')}>
-        <Ionicons name="globe-outline" size={20} color={colors.primary} />
-        <Text style={styles.linkText}>Calling rates by country</Text>
-        <Ionicons name="chevron-forward" size={18} color={colors.muted} />
-      </Pressable>
+      <View style={styles.balanceCard}>
+        <View style={{ flex: 1 }}>
+          <Text style={styles.balanceLabel}>WEZO credit</Text>
+          <Text style={styles.balance}>{formatMoney(balance)}</Text>
+          {settings.autoTopUp && (
+            <Text style={styles.balanceSub}>Auto top-up on · {formatMoney(settings.autoTopUpAmount)}</Text>
+          )}
+        </View>
+        <Pressable style={styles.topUpBtn} onPress={() => router.push('/topup')}>
+          <Text style={styles.topUpText}>Top up</Text>
+        </Pressable>
+      </View>
+
+      <Card>
+        <MenuRow icon="person-outline" label="Profile" onPress={() => router.push('/profile')} />
+        <MenuRow icon="wallet-outline" label="Top up" onPress={() => router.push('/topup')} />
+        <MenuRow
+          icon="gift-outline"
+          label="Invite / Get free credit"
+          detail={inviteRedeemed ? undefined : '+$1'}
+          onPress={() => router.push('/invite')}
+        />
+        <MenuRow icon="stats-chart-outline" label="Monthly recaps" onPress={() => router.push('/recaps')} />
+        <MenuRow icon="globe-outline" label="Calling rates" onPress={() => router.push('/rates')} />
+        <MenuRow icon="settings-outline" label="Settings" onPress={() => router.push('/settings')} />
+        <MenuRow icon="help-circle-outline" label="Help" onPress={() => router.push('/help')} />
+      </Card>
 
       {callProvider.isDemo && (
         <View style={styles.notice}>
           <Text style={styles.noticeTitle}>Demo mode</Text>
           <Text style={styles.noticeText}>
-            Calls and messages are simulated and top-ups are free; no real money is charged. Connect a VoIP provider
-            and a payment provider to go live (see README).
+            Calls and messages are simulated and top-ups are free; no real money is charged.
           </Text>
         </View>
       )}
@@ -58,33 +66,22 @@ export default function AccountScreen() {
 
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.bg },
-  balanceCard: { backgroundColor: colors.primary, borderRadius: radius.lg, padding: 24 },
-  balanceLabel: { color: 'rgba(255,255,255,0.8)', fontWeight: '600' },
-  balance: { color: '#fff', fontSize: 34, fontWeight: '800', marginVertical: 4 },
-  balanceSub: { color: 'rgba(255,255,255,0.8)' },
-  section: { fontSize: 15, fontWeight: '700', color: colors.text },
-  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
-  amount: {
-    flexGrow: 1,
-    flexBasis: '40%',
-    backgroundColor: colors.card,
-    borderRadius: radius.md,
-    borderWidth: 1,
-    borderColor: colors.border,
-    paddingVertical: 18,
-    alignItems: 'center',
-  },
-  amountText: { fontSize: 17, fontWeight: '700', color: colors.primary },
-  link: {
+  content: { padding: 16, gap: 18, paddingBottom: 32 },
+  hello: { fontSize: 24, fontWeight: '700', color: colors.text },
+  name: { fontSize: 24, fontWeight: '700', color: colors.text },
+  balanceCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
-    backgroundColor: colors.card,
-    borderRadius: radius.md,
-    padding: 14,
+    backgroundColor: colors.primary,
+    borderRadius: radius.lg,
+    padding: 18,
   },
-  linkText: { flex: 1, fontSize: 14, fontWeight: '600', color: colors.text },
+  balanceLabel: { color: 'rgba(255,255,255,0.85)', fontWeight: '600', fontSize: 12 },
+  balance: { color: '#fff', fontSize: 30, fontWeight: '800', marginVertical: 2 },
+  balanceSub: { color: 'rgba(255,255,255,0.85)', fontSize: 12 },
+  topUpBtn: { backgroundColor: '#fff', borderRadius: radius.pill, paddingHorizontal: 18, paddingVertical: 10 },
+  topUpText: { color: colors.primary, fontWeight: '700', fontSize: 14 },
   notice: { backgroundColor: '#FFF6E5', borderRadius: radius.md, padding: 14 },
-  noticeTitle: { fontWeight: '700', color: '#8A5A00', marginBottom: 4 },
-  noticeText: { color: '#8A5A00', lineHeight: 20 },
+  noticeTitle: { fontWeight: '700', color: '#8A5A00', marginBottom: 4, fontSize: 13 },
+  noticeText: { color: '#8A5A00', lineHeight: 18, fontSize: 13 },
 });

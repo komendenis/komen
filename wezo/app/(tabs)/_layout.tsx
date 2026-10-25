@@ -23,7 +23,7 @@ export default function TabsLayout() {
       <Tabs.Screen name="contacts" options={{ title: 'Contacts', tabBarIcon: icon('people') }} />
       <Tabs.Screen name="messages" options={{ title: 'Messages', tabBarIcon: icon('chatbubbles') }} />
       <Tabs.Screen name="recents" options={{ title: 'Recents', tabBarIcon: icon('time') }} />
-      <Tabs.Screen name="account" options={{ title: 'Account', tabBarIcon: icon('wallet') }} />
+      <Tabs.Screen name="account" options={{ title: 'Account', headerShown: false, tabBarIcon: icon('person-circle') }} />
     </Tabs>
   );
 }

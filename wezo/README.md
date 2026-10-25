@@ -9,7 +9,16 @@ International calling app (in the spirit of Rebtel), built with React Native + E
 - **Recents**: call history with duration and cost; tap to call back.
 - **Messages**: text anyone abroad; conversations list, chat screen with sent/delivered status,
   per-message price and a 160-character limit. Start a chat from Messages or from a contact.
-- **Account**: credit balance, top-ups ($2 welcome credit) and calling rates for 37 countries.
+- **Account**: "Hello <name>" greeting, balance with a Top up button, and a menu with:
+  - **Profile**: name, your phone number and email for receipts.
+  - **Top up**: $5–$50 or a custom amount, card / M-Pesa / PayPal, estimated minutes, payment history.
+  - **Invite / Get free credit**: your invite code to share, and a field to redeem a friend's code ($1).
+  - **Monthly recaps**: minutes, calls, texts, money spent, credit added and most-called country per month.
+  - **Calling rates** for 37 countries.
+  - **Settings**: default country, low-balance alert, auto top-up ($5/$10/$25 when credit drops below $1),
+    app version and reset app data.
+  - **Help**: common questions and the support contact.
+- **Low-balance banner** on the keypad showing the minutes left, with a shortcut to top up.
 - **In-call screen**: ringing → connected timer, live cost, mute, speaker, DTMF keypad, hang up.
   Calls are billed per started minute and end automatically when credit runs out.
 
@@ -54,13 +63,14 @@ sending and delivery, and top-ups add free credit. No real call or SMS is sent a
 ```
 app/                 Expo Router screens
   (tabs)/            Keypad, Contacts, Messages, Recents, Account
+  profile, topup, invite, recaps, settings, help   Account screens
   call.tsx           In-call screen
   chat.tsx           Conversation screen
   rates.tsx          Calling rates
   countries.tsx      Country picker modal
 assets/              Logo (SVG source) and app icons
 src/
-  components/        Keypad, CountryButton, CountryList
+  components/        Keypad, CountryButton, CountryList, shared UI (ui.tsx)
   data/countries.ts  Countries, calling codes, rates
   services/          Calling and messaging providers + demo versions
   state/store.tsx    App state + persistence
