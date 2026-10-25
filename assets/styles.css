@@ -76,7 +76,7 @@ p { margin: 0 0 1em; }
 
 /* ---------- Nav ---------- */
 .nav {
-  position: sticky; top: 0; z-index: 50;
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50;
   background: color-mix(in srgb, var(--bg) 82%, transparent);
   backdrop-filter: saturate(160%) blur(12px);
   border-bottom: 1px solid var(--border);
@@ -118,7 +118,6 @@ p { margin: 0 0 1em; }
 
 /* Installed app: respect notches and the home indicator. */
 @media (display-mode: standalone) {
-  .nav { padding-top: env(safe-area-inset-top); }
   .footer { padding-bottom: calc(32px + env(safe-area-inset-bottom)); }
 }
 
@@ -240,14 +239,14 @@ p { margin: 0 0 1em; }
 .footer p { margin: 0; }
 
 /* Reveal on scroll */
-.reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
-.reveal.is-visible { opacity: 1; transform: none; }
-.no-js .reveal { opacity: 1; transform: none; }
+/* Content is visible at rest; sections only drift up slightly as they enter. */
+.reveal { transition: transform .6s ease; }
+.js .reveal:not(.is-visible) { transform: translateY(12px); }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition: none !important; animation: none !important; }
-  .reveal { opacity: 1; transform: none; }
+  .js .reveal:not(.is-visible) { transform: none; }
 }
 
 /* ---------- Responsive ---------- */

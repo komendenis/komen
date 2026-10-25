@@ -1,5 +1,6 @@
 (function () {
   "use strict";
+  document.documentElement.classList.add("js");
 
   var GH = "https://github.com/komendenis/";
   // Set this to the address that should receive contact-form messages.
@@ -190,7 +191,7 @@
     var subject = encodeURIComponent("Portfolio enquiry from " + name);
     var body = encodeURIComponent(f.namedItem("message").value.trim() + "\n\n— " + name + " (" + f.namedItem("email").value.trim() + ")");
     window.location.href = "mailto:" + CONTACT_EMAIL + "?subject=" + subject + "&body=" + body;
-    status.textContent = "Opening your email app…";
+    status.textContent = "Your email app should open with this message. If it doesn't, write to " + CONTACT_EMAIL + ".";
     form.reset();
   });
 
